@@ -20,8 +20,14 @@ body {
   color: rgb(39, 36, 117);
 }
 
+#todo-title-list {
+  justify-content: center;
+  color: rgb(40, 27, 44);
+  padding-left: 46%;
+}
 #todo-list {
   justify-content: center;
   color: rgb(40, 27, 44);
-  padding-left: 45%;
+  padding-left: 47%;
+  list-style-type: circle;
 }
