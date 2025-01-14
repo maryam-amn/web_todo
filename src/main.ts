@@ -17,17 +17,33 @@ if (deserialized) {
   todos.forEach(myList)
 }
 
+// do the list
 function myList(todo: Todo) {
   if (outputList) {
     const addedTodoText = todo.text
     const newList = document.createElement('li')
     newList.textContent = addedTodoText
     outputList.appendChild(newList)
+    // Button remove
+    const TextRemove = 'Remove'
+    const Buttons = document.createElement('button')
+    Buttons.textContent = TextRemove
+    const button = outputList.appendChild(Buttons)
+    button.id = 'button'
+    button.addEventListener('click', () => {
+      if (newList) newList.remove()
+      if (Buttons) Buttons.remove()
+
+      const index = todos.findIndex((t) => t.text === todo.text)
+      if (index !== -1) {
+        todos.splice(index, 1)
+        localStorage.setItem('value', JSON.stringify(todos))
+      }
+    })
   } else {
     alert('Please enter a todo ')
   }
 }
-
 if (button && todoInput && outputList) {
   button.addEventListener('click', () => {
     test()
@@ -39,8 +55,7 @@ if (button && todoInput && outputList) {
     }
   })
 }
-
-// Define your function
+// Stock la todo
 function test(): void {
   if (todoInput) {
     const text: string = todoInput.value.trim()
