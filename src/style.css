@@ -30,7 +30,6 @@ body {
   color: rgb(40, 27, 44);
   padding-left: 47%;
   list-style-type: circle;
-  display: inline-block;
 }
 
 #space-between-button {
