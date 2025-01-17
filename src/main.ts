@@ -7,10 +7,12 @@ const button = document.querySelector<HTMLButtonElement>('#add-todo-button')
 const outputList = document.querySelector<HTMLUListElement>('#todo-list')
 const deserialized = localStorage.getItem('value')
 const delete_all = document.querySelector<HTMLButtonElement>('#delete-all')
+const due_date = document.querySelector<HTMLInputElement>('#due-date')
 
 interface Todo {
   text: string
   status: string
+  date: string
 }
 
 let todos: Todo[] = []
@@ -60,6 +62,12 @@ function myList(todo: Todo, index: number) {
 
     outputList.appendChild(checkbox)
 
+    const dates = document.createElement('p')
+    const time = document.createElement('time')
+    time.textContent = todo.date
+    dates.appendChild(time)
+    newList.appendChild(dates)
+
     button.addEventListener('click', () => {
       if (newList) newList.remove()
       if (Buttons) Buttons.remove()
@@ -89,10 +97,11 @@ if (button && todoInput && outputList) {
 
 // Stock la todo
 function test(): void {
-  if (todoInput) {
+  if (todoInput && due_date) {
     const text: string = todoInput.value.trim()
+    const date: string = due_date.value.trim()
     if (text) {
-      const newTodo: Todo = { text, status: 'undone' }
+      const newTodo: Todo = { text, status: 'undone', date }
       todos.push(newTodo)
       const serialized = JSON.stringify(todos)
       localStorage.setItem('value', serialized)
