@@ -6,6 +6,7 @@ const todoInput = document.querySelector<HTMLInputElement>('#todo-input')
 const button = document.querySelector<HTMLButtonElement>('#add-todo-button')
 const outputList = document.querySelector<HTMLUListElement>('#todo-list')
 const deserialized = localStorage.getItem('value')
+const delete_all = document.querySelector<HTMLButtonElement>('#delete-all')
 
 interface Todo {
   text: string
@@ -19,7 +20,7 @@ if (deserialized) {
 }
 
 function done_todo(index: number) {
-  if (outputList) {
+  if (outputList && todoInput) {
     if (todos[index].status === 'done') {
       todos[index].status = 'undone'
     } else {
@@ -29,7 +30,6 @@ function done_todo(index: number) {
   localStorage.setItem('value', JSON.stringify(todos))
 }
 
-// do the list
 function myList(todo: Todo, index: number) {
   if (outputList) {
     const addedTodoText = todo.text
@@ -37,8 +37,14 @@ function myList(todo: Todo, index: number) {
     newList.textContent = addedTodoText
     outputList.appendChild(newList)
 
-    // Button remove
-
+    if (delete_all) {
+      delete_all.addEventListener('click', () => {
+        localStorage.removeItem('value')
+        newList.remove()
+        button.remove()
+        checkbox.remove()
+      })
+    }
     const TextRemove = 'Remove'
     const Buttons = document.createElement('button')
     Buttons.textContent = TextRemove
@@ -51,6 +57,7 @@ function myList(todo: Todo, index: number) {
     checkbox.addEventListener('change', () => {
       done_todo(index)
     })
+
     outputList.appendChild(checkbox)
 
     button.addEventListener('click', () => {
@@ -84,7 +91,6 @@ if (button && todoInput && outputList) {
 function test(): void {
   if (todoInput) {
     const text: string = todoInput.value.trim()
-
     if (text) {
       const newTodo: Todo = { text, status: 'undone' }
       todos.push(newTodo)
