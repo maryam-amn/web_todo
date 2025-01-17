@@ -69,7 +69,7 @@ function myList(todo: Todo, index: number) {
     dates.appendChild(time)
     newList.appendChild(dates)
 
-    
+
     button.addEventListener('click', () => {
       if (newList) newList.remove()
       if (Buttons) Buttons.remove()
