@@ -62,13 +62,11 @@ function myList(todo: Todo, index: number) {
 
     outputList.appendChild(checkbox)
 
-
     const dates = document.createElement('p')
     const time = document.createElement('time')
     time.textContent = todo.date
     dates.appendChild(time)
     newList.appendChild(dates)
-
 
     button.addEventListener('click', () => {
       if (newList) newList.remove()
@@ -99,11 +97,11 @@ if (button && todoInput && outputList) {
 
 // Stock la todo
 function test(): void {
-  if (todoInput && due_date ) {
+  if (todoInput && due_date) {
     const text: string = todoInput.value.trim()
-    const  date : string = due_date.value.trim()
+    const date: string = due_date.value.trim()
     if (text) {
-      const newTodo: Todo = { text, status: 'undone', date}
+      const newTodo: Todo = { text, status: 'undone', date }
       todos.push(newTodo)
       const serialized = JSON.stringify(todos)
       localStorage.setItem('value', serialized)
