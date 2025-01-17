@@ -32,7 +32,7 @@ body {
   list-style-type: circle;
 }
 
-#space-between-button {
+.space-between-button {
   display: flex;
   flex-direction: column;
   width: 10px;
