@@ -12,26 +12,26 @@
   <h1 id="title-todo">Web todolist app</h1>
   <div id="todo-space-button">
 
-    <button id="add-todo-button">Add to do</button>
+    <button id="add-todo-button" disabled >Add to do</button>
     <div class = "space-between-button"></div>
 
-    <input id="todo-input" placeholder="Add a new to do" type="text">
-
-    <div class="space-between-button"></div>
+    <input id="todo-input" placeholder="Add a new to do" type="text" maxlength="200">    <div class="space-between-button"></div>
     <button id ="delete-all">Delete all </button>
     <div class = "space-between-button"></div>
     <input  id = "due-date" placeholder = "Due date" type="date"></input>
 
-
   </div>
   <div id="todo-title-list">
     <h2> To-do list : </h2>
+    <p id="todo-creation-error"></p>
   </div>
+  <div class="list-style">
   <ul id="todo-list"></ul>
 
 
 
 <p id="todo-test"></p>
+  </div>
   <script type="module" src="/src/main.ts"></script>
 </body>
 

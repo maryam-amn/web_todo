@@ -22,7 +22,7 @@ body {
 
 #todo-title-list {
   justify-content: center;
-  color: rgb(40, 27, 44);
+  color: rgb(9, 31, 174);
   padding-left: 46%;
 }
 #todo-list {
@@ -37,4 +37,11 @@ body {
   display: flex;
   flex-direction: column;
   width: 10px;
+}
+#todo-creation-error {
+  color: red;
+}
+ul li {
+  align-items: center;
+  display: flex;
 }
