@@ -11,7 +11,8 @@ const due_date = document.querySelector<HTMLInputElement>('#due-date')
 const error_message = document.querySelector<HTMLParagraphElement>(
   '#todo-creation-error',
 )
-
+const global_message =
+  document.querySelector<HTMLParagraphElement>('#global_message')
 interface Todo {
   text: string
   status: string
@@ -51,12 +52,13 @@ function myList(todo: Todo, index: number) {
     newList.textContent = addedTodoText
     outputList.appendChild(newList)
 
-    if (delete_all) {
+    if (delete_all && global_message) {
       delete_all.addEventListener('click', () => {
         localStorage.removeItem('value')
         newList.remove()
         button.remove()
         checkbox.remove()
+        global_message.innerHTML = ''
       })
     }
     const TextRemove = 'Remove'
@@ -123,13 +125,20 @@ function myList(todo: Todo, index: number) {
         dates.appendChild(time)
         newList.appendChild(dates)
         time.className = 'time'
+
+        if (global_message)
+          if (time.style.color === 'red') {
+            global_message.innerHTML = 'Do your todo !'
+            global_message.style.color = 'white'
+            global_message.style.backgroundColor = 'red'
+          } else {
+            global_message.innerHTML = ''
+          }
       }
     }
   } else {
     alert('Please enter a todo ')
   }
-
-  // call setHours to take the time out of the comparison
 }
 
 if (todoInput) {
