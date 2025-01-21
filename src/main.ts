@@ -8,6 +8,9 @@ const outputList = document.querySelector<HTMLUListElement>('#todo-list')
 const deserialized = localStorage.getItem('value')
 const delete_all = document.querySelector<HTMLButtonElement>('#delete-all')
 const due_date = document.querySelector<HTMLInputElement>('#due-date')
+const error_message = document.querySelector<HTMLParagraphElement>(
+  '#todo-creation-error',
+)
 
 interface Todo {
   text: string
@@ -30,6 +33,15 @@ function done_todo(index: number) {
     }
   }
   localStorage.setItem('value', JSON.stringify(todos))
+}
+
+function button_disabled() {
+  if (todoInput && button)
+    if (todoInput.value === '') {
+      button.setAttribute('disabled', 'disabled')
+    } else {
+      button.removeAttribute('disabled')
+    }
 }
 
 function myList(todo: Todo, index: number) {
@@ -62,12 +74,6 @@ function myList(todo: Todo, index: number) {
 
     outputList.appendChild(checkbox)
 
-    const dates = document.createElement('p')
-    const time = document.createElement('time')
-    time.textContent = todo.date
-    dates.appendChild(time)
-    newList.appendChild(dates)
-
     button.addEventListener('click', () => {
       if (newList) newList.remove()
       if (Buttons) Buttons.remove()
@@ -79,10 +85,37 @@ function myList(todo: Todo, index: number) {
         localStorage.setItem('value', JSON.stringify(todos))
       }
     })
+
+    if (error_message) {
+      if (Number.isNaN(new Date(todo.date).getTime())) {
+        error_message.innerHTML =
+          "<p style='color: red;'>" + 'Please enter a valid date</p>'
+        newList.remove()
+        Buttons.remove()
+        checkbox.remove()
+
+        if (index !== -1) {
+          todos.splice(index, 1)
+          localStorage.setItem('value', JSON.stringify(todos))
+        }
+      } else {
+        error_message.innerHTML = ''
+        const dates = document.createElement('p')
+        const time = document.createElement('time')
+        time.textContent = `\xa0${todo.date}`
+        dates.appendChild(time)
+        newList.appendChild(dates)
+      }
+    }
   } else {
     alert('Please enter a todo ')
   }
 }
+
+if (todoInput) {
+  todoInput.addEventListener('input', button_disabled)
+}
+
 if (button && todoInput && outputList) {
   button.addEventListener('click', () => {
     test()
@@ -106,7 +139,7 @@ function test(): void {
       const serialized = JSON.stringify(todos)
       localStorage.setItem('value', serialized)
       myList(newTodo, todos.length - 1)
-      todoInput.value = ''
+      todoInput.value = ' '
     }
   }
 }
