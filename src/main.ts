@@ -119,7 +119,7 @@ function myList(todo: Todo, index: number) {
         } else {
           time.style.color = 'green'
         }
-
+        
         dates.appendChild(time)
         newList.appendChild(dates)
         time.className = 'time'
