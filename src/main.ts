@@ -103,13 +103,33 @@ function myList(todo: Todo, index: number) {
         const dates = document.createElement('p')
         const time = document.createElement('time')
         time.textContent = `\xa0${todo.date}`
+
+        const today = new Date()
+        if (
+          new Date(todo.date).setHours(0, 0, 0, 0) ===
+          new Date().setHours(0, 0, 0, 0)
+        ) {
+          time.style.color = 'orange'
+        } else if (new Date(todo.date) < new Date()) {
+          time.style.color = 'red'
+        } else if (
+          new Date(todo.date) < new Date(today.setDate(today.getDate() + 4))
+        ) {
+          time.style.color = 'yellow'
+        } else {
+          time.style.color = 'green'
+        }
+
         dates.appendChild(time)
         newList.appendChild(dates)
+        time.className = 'time'
       }
     }
   } else {
     alert('Please enter a todo ')
   }
+
+  // call setHours to take the time out of the comparison
 }
 
 if (todoInput) {
