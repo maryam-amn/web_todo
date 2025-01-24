@@ -13,6 +13,7 @@ const error_message = document.querySelector<HTMLParagraphElement>(
 )
 const global_message =
   document.querySelector<HTMLParagraphElement>('#global_message')
+
 interface Todo {
   text: string
   status: string
@@ -34,6 +35,7 @@ function done_todo(index: number) {
     }
   }
   localStorage.setItem('value', JSON.stringify(todos))
+  overdueTodos()
 }
 
 function button_disabled() {
@@ -43,6 +45,18 @@ function button_disabled() {
     } else {
       button.removeAttribute('disabled')
     }
+}
+
+function overdueTodos() {
+  const today = new Date()
+  const overdueTodos = todos.filter((todo) => new Date(todo.date) < today)
+
+  if (overdueTodos.length > 0 && global_message) {
+    global_message.innerHTML =
+      "<p style='background-color: red; color: white; '>You have overdue todos !</p>"
+  } else if (global_message) {
+    global_message.innerHTML = ''
+  }
 }
 
 function myList(todo: Todo, index: number) {
@@ -85,6 +99,7 @@ function myList(todo: Todo, index: number) {
       if (index !== -1) {
         todos.splice(index, 1)
         localStorage.setItem('value', JSON.stringify(todos))
+        overdueTodos()
       }
     })
 
@@ -111,29 +126,20 @@ function myList(todo: Todo, index: number) {
           new Date(todo.date).setHours(0, 0, 0, 0) ===
           new Date().setHours(0, 0, 0, 0)
         ) {
-          time.style.color = 'orange'
+          newList.style.color = 'orange'
         } else if (new Date(todo.date) < new Date()) {
-          time.style.color = 'red'
+          newList.style.color = 'red'
         } else if (
           new Date(todo.date) < new Date(today.setDate(today.getDate() + 4))
         ) {
-          time.style.color = 'yellow'
+          newList.style.color = 'yellow'
         } else {
-          time.style.color = 'green'
+          newList.style.color = 'green'
         }
 
         dates.appendChild(time)
         newList.appendChild(dates)
         time.className = 'time'
-
-        if (global_message)
-          if (time.style.color === 'red') {
-            global_message.innerHTML = 'Do your todo !'
-            global_message.style.color = 'white'
-            global_message.style.backgroundColor = 'red'
-          } else {
-            global_message.innerHTML = ''
-          }
       }
     }
   } else {
@@ -157,7 +163,6 @@ if (button && todoInput && outputList) {
   })
 }
 
-// Stock la todo
 function test(): void {
   if (todoInput && due_date) {
     const text: string = todoInput.value.trim()
@@ -171,4 +176,6 @@ function test(): void {
       todoInput.value = ' '
     }
   }
+  overdueTodos()
 }
+overdueTodos()

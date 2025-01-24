@@ -16,14 +16,14 @@ body {
 
 #todo-space-button {
   display: flex;
-  justify-content: center;
   color: rgb(39, 36, 117);
+  align-items: center;
+  justify-content: center;
 }
 
 #todo-title-list {
   justify-content: center;
-  color: rgb(9, 31, 174);
-  padding-left: 46%;
+  padding-left: 47%;
 }
 #todo-list {
   justify-content: center;
@@ -44,4 +44,8 @@ body {
 ul li {
   align-items: center;
   display: flex;
+}
+#global_message {
+  display: flex;
+  justify-content: center;
 }
