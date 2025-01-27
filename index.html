@@ -6,33 +6,41 @@
   <link rel="icon" type="image/svg+xml" href="/todo.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Web todolist project</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playwrite+IN&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body  >
   <h1 id="title-todo">Web todolist app</h1>
-  <div id="todo-space-button">
+  <div id="app">
 
-    <button id="add-todo-button" disabled >Add to do</button>
-    <div class = "space-between-button"></div>
+    <div id="todo-space-button">
 
-    <input id="todo-input" placeholder="Add a new to do" type="text" maxlength="200">
-    <div class="space-between-button"></div>
-    <button id ="delete-all">Delete all </button>
-    <div class = "space-between-button"></div>
-    <input  id = "due-date" placeholder = "Due date" type="date"></input>
+      <button id="add-todo-button" disabled >Add to do</button>
+      <div class = "space-between-button"></div>
+
+      <input id="todo-input" placeholder="Add a new to do" type="text" maxlength="200">
+      <div class="space-between-button"></div>
+      <button id ="delete-all">Delete all </button>
+      <div class = "space-between-button"></div>
+      <input  id = "due-date" placeholder = "Due date" type="date"></input>
+
 
   </div>
+
+  </div>
+
   <div id="todo-title-list">
-    <h2 id="todo-title"> To-do list : </h2>
     <p id="todo-creation-error"></p>
 
   </div><p id="global_message"></p>
   <div class="list-style">
+
   <ul id="todo-list"></ul>
-
-
-
 <p id="todo-test"></p>
+
   </div>
   <script type="module" src="/src/main.ts"></script>
 </body>
