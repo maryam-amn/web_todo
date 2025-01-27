@@ -61,10 +61,17 @@ function overdueTodos() {
 
 function myList(todo: Todo, index: number) {
   if (outputList) {
+    const div = document.createElement('div')
+    outputList.appendChild(div)
+    div.classList.add('todo-div')
+
     const addedTodoText = todo.text
     const newList = document.createElement('li')
-    newList.textContent = addedTodoText
-    outputList.appendChild(newList)
+    newList.innerHTML = addedTodoText
+    div.appendChild(newList)
+    div.appendChild(newList)
+
+    newList.classList.add('list')
 
     if (delete_all && global_message) {
       delete_all.addEventListener('click', () => {
@@ -75,11 +82,7 @@ function myList(todo: Todo, index: number) {
         global_message.innerHTML = ''
       })
     }
-    const TextRemove = 'Remove'
-    const Buttons = document.createElement('button')
-    Buttons.textContent = TextRemove
-    const button = outputList.appendChild(Buttons)
-    button.id = 'button'
+    //const TextRemove = "Remove"
 
     const checkbox = document.createElement('input')
     checkbox.type = 'checkbox'
@@ -88,7 +91,14 @@ function myList(todo: Todo, index: number) {
       done_todo(index)
     })
 
-    outputList.appendChild(checkbox)
+    div.appendChild(checkbox)
+    const Buttons = document.createElement('button')
+    Buttons.innerHTML =
+      '<img width="30" height="30" src="https://img.icons8.com/carbon-copy/100/filled-trash.png" alt="filled-trash"/>'
+    const button = outputList.appendChild(Buttons)
+    button.id = 'button'
+
+    div.appendChild(button)
 
     button.addEventListener('click', () => {
       if (newList) newList.remove()
@@ -153,17 +163,16 @@ if (todoInput) {
 
 if (button && todoInput && outputList) {
   button.addEventListener('click', () => {
-    test()
+    Storage()
   })
 
   todoInput.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
-      test()
+      Storage()
     }
   })
 }
-
-function test(): void {
+function Storage(): void {
   if (todoInput && due_date) {
     const text: string = todoInput.value.trim()
     const date: string = due_date.value.trim()
@@ -179,3 +188,5 @@ function test(): void {
   overdueTodos()
 }
 overdueTodos()
+
+// export {function }
