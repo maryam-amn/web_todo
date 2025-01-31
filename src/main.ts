@@ -1,9 +1,9 @@
 import './style.css'
 export { myList }
 console.log('Hello from typescript')
+import { Storage, deserialized, done_todo, todos } from './Storage_todo.ts'
 import { event, overdueTodos } from './event.ts'
 import { myList } from './mytodo_list.ts'
-import { todos, Storage, deserialized, done_todo } from './Storage_todo.ts'
 
 console.log('Hello from typescript')
 

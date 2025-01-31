@@ -1,7 +1,5 @@
 import { Storage, todos } from './Storage_todo.ts'
 
-
-
 export function disabled_button(
   todoInput: HTMLInputElement,
   button: HTMLButtonElement,
@@ -13,7 +11,6 @@ export function disabled_button(
       button.removeAttribute('disabled')
     }
 }
-
 
 export function event(
   todoInput: HTMLInputElement,

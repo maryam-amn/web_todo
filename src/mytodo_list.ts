@@ -1,5 +1,5 @@
+import { type Todo, done_todo, todos } from './Storage_todo.ts'
 import { overdueTodos } from './event.ts'
-import { type Todo, todos, done_todo } from './Storage_todo.ts'
 
 export function myList(
   todo: Todo,
@@ -108,4 +108,3 @@ export function myList(
     alert('Please enter a todo ')
   }
 }
-
