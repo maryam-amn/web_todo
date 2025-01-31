@@ -1,7 +1,7 @@
 import './style.css'
 export { myList }
 console.log('Hello from typescript')
-import { storage, deserialized, doneTodo, todos } from './Storage_todo.ts'
+import { deserialized, doneTodo, storage, todos } from './Storage_todo.ts'
 import { event, overdueTodos } from './event.ts'
 import { myList } from './mytodo_list.ts'
 
@@ -11,7 +11,7 @@ const todoInput = document.querySelector<HTMLInputElement>('#todo-input')
 const button = document.querySelector<HTMLButtonElement>('#add-todo-button')
 const outputList = document.querySelector<HTMLUListElement>('#todo-list')
 const deleteAll = document.querySelector<HTMLButtonElement>('#delete-all')
- const dueDate = document.querySelector<HTMLInputElement>('#due-date')
+const dueDate = document.querySelector<HTMLInputElement>('#due-date')
 const errorMessage = document.querySelector<HTMLParagraphElement>(
   '#todo-creation-error',
 )
