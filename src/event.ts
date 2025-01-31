@@ -1,6 +1,6 @@
-import { Storage, todos } from './Storage_todo.ts'
+import { storage, todos } from './Storage_todo.ts'
 
-export function disabled_button(
+export function disabledButton(
   todoInput: HTMLInputElement,
   button: HTMLButtonElement,
 ): void {
@@ -14,54 +14,54 @@ export function disabled_button(
 
 export function event(
   todoInput: HTMLInputElement,
-  global_message: HTMLParagraphElement,
-  error_message: HTMLParagraphElement,
+  globalMessage: HTMLParagraphElement,
+  errorMessage: HTMLParagraphElement,
   outputList: HTMLUListElement,
-  delete_all: HTMLButtonElement,
+  deleteAll: HTMLButtonElement,
   button: HTMLButtonElement,
-  due_date: HTMLInputElement,
+  dueDate: HTMLInputElement,
 ): void {
   if (todoInput) {
     todoInput.addEventListener('input', () => {
-      disabled_button(todoInput, button)
+      disabledButton(todoInput, button)
     })
   }
 
   if (button && todoInput && outputList) {
     button.addEventListener('click', () => {
-      Storage(
+      storage(
         todoInput,
-        due_date,
-        global_message,
-        error_message,
+        dueDate,
+        globalMessage,
+        errorMessage,
         outputList,
-        delete_all,
+        deleteAll,
       )
     })
 
     todoInput.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
-        Storage(
+        storage(
           todoInput,
-          due_date,
-          global_message,
-          error_message,
+          dueDate,
+          globalMessage,
+          errorMessage,
           outputList,
-          delete_all,
+          deleteAll,
         )
       }
     })
   }
 }
 
-export function overdueTodos(global_message: HTMLParagraphElement) {
+export function overdueTodos(globalMessage: HTMLParagraphElement) {
   const today = new Date()
   const overdueTodos = todos.filter((todo) => new Date(todo.date) < today)
 
-  if (overdueTodos.length > 0 && global_message) {
-    global_message.innerHTML =
+  if (overdueTodos.length > 0 && globalMessage) {
+    globalMessage.innerHTML =
       "<p style='background-color: red; color: white; '>You have overdue todos !</p>"
-  } else if (global_message) {
-    global_message.innerHTML = ''
+  } else if (globalMessage) {
+    globalMessage.innerHTML = ''
   }
 }

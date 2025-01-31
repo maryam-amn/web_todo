@@ -1,13 +1,13 @@
-import { type Todo, done_todo, todos } from './Storage_todo.ts'
+import { type Todo, doneTodo, todos } from './Storage_todo.ts'
 import { overdueTodos } from './event.ts'
 
 export function myList(
   todo: Todo,
   index: number,
   outputList: HTMLUListElement,
-  delete_all: HTMLButtonElement,
-  global_message: HTMLParagraphElement,
-  error_message: HTMLParagraphElement,
+  deleteAll: HTMLButtonElement,
+  globalMessage: HTMLParagraphElement,
+  errorMessage: HTMLParagraphElement,
   todoInput: HTMLInputElement,
 ) {
   if (outputList) {
@@ -23,13 +23,13 @@ export function myList(
 
     newList.classList.add('list')
 
-    if (delete_all && global_message) {
-      delete_all.addEventListener('click', () => {
+    if (deleteAll && globalMessage) {
+      deleteAll.addEventListener('click', () => {
         localStorage.removeItem('value')
         newList.remove()
         button.remove()
         checkbox.remove()
-        global_message.innerHTML = ''
+        globalMessage.innerHTML = ''
       })
     }
     //const TextRemove = "Remove"
@@ -38,7 +38,7 @@ export function myList(
     checkbox.type = 'checkbox'
     checkbox.checked = todo.status === 'done'
     checkbox.addEventListener('change', () => {
-      done_todo(index, outputList, todoInput, global_message)
+      doneTodo(index, outputList, todoInput, globalMessage)
     })
 
     div.appendChild(checkbox)
@@ -59,15 +59,15 @@ export function myList(
       if (index !== -1) {
         todos.splice(index, 1)
         localStorage.setItem('value', JSON.stringify(todos))
-        if (global_message) {
-          overdueTodos(global_message)
+        if (globalMessage) {
+          overdueTodos(globalMessage)
         }
       }
     })
 
-    if (error_message) {
+    if (errorMessage) {
       if (Number.isNaN(new Date(todo.date).getTime())) {
-        error_message.innerHTML =
+        errorMessage.innerHTML =
           "<p style='color: red;'>" + 'Please enter a valid date</p>'
         newList.remove()
         Buttons.remove()
@@ -78,7 +78,7 @@ export function myList(
           localStorage.setItem('value', JSON.stringify(todos))
         }
       } else {
-        error_message.innerHTML = ''
+        errorMessage.innerHTML = ''
         const dates = document.createElement('p')
         const time = document.createElement('time')
         time.textContent = `\xa0${todo.date}`

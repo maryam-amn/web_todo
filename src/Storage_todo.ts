@@ -11,31 +11,31 @@ export const todos: Todo[] = []
 
 export function deserialized(
   outputList: HTMLUListElement,
-  delete_all: HTMLButtonElement,
-  global_message: HTMLParagraphElement,
-  error_message: HTMLParagraphElement,
+  deleteAll: HTMLButtonElement,
+  globalMessage: HTMLParagraphElement,
+  errorMessage: HTMLParagraphElement,
   todoInput: HTMLInputElement,
 ) {
   const deserialized = localStorage.getItem('value')
   let todos: Todo[] = []
   if (deserialized) {
     todos = JSON.parse(deserialized)
-    if (outputList && delete_all && global_message && error_message) {
+    if (outputList && deleteAll && globalMessage && errorMessage) {
       todos.forEach((todo, index) => {
         myList(
           todo,
           index,
           outputList,
-          delete_all,
-          global_message,
-          error_message,
+          deleteAll,
+          globalMessage,
+          errorMessage,
           todoInput,
         )
       })
     }
   }
 }
-export function done_todo(
+export function doneTodo(
   index: number,
   outputList: HTMLUListElement,
   todoInput: HTMLInputElement,
@@ -54,17 +54,17 @@ export function done_todo(
   }
 }
 
-export function Storage(
+export function storage(
   todoInput: HTMLInputElement,
-  due_date: HTMLInputElement,
-  global_message: HTMLParagraphElement,
-  error_message: HTMLParagraphElement,
+  dueDate: HTMLInputElement,
+  globalMessage: HTMLParagraphElement,
+  errorMessage: HTMLParagraphElement,
   outputList: HTMLUListElement,
-  delete_all: HTMLButtonElement,
+  deleteAll: HTMLButtonElement,
 ): void {
-  if (todoInput && due_date) {
+  if (todoInput && dueDate) {
     const text: string = todoInput.value.trim()
-    const date: string = due_date.value.trim()
+    const date: string = dueDate.value.trim()
     if (text) {
       const newTodo: Todo = { text, status: 'undone', date }
       todos.push(newTodo)
@@ -75,9 +75,9 @@ export function Storage(
         newTodo,
         todos.length - 1,
         outputList,
-        delete_all,
-        global_message,
-        error_message,
+        deleteAll,
+        globalMessage,
+        errorMessage,
         todoInput,
       )
 
@@ -85,7 +85,7 @@ export function Storage(
     }
   }
 
-  if (global_message) {
-    overdueTodos(global_message)
+  if (globalMessage) {
+    overdueTodos(globalMessage)
   }
 }

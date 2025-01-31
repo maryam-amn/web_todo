@@ -1,7 +1,7 @@
 import './style.css'
 export { myList }
 console.log('Hello from typescript')
-import { Storage, deserialized, done_todo, todos } from './Storage_todo.ts'
+import { storage, deserialized, doneTodo, todos } from './Storage_todo.ts'
 import { event, overdueTodos } from './event.ts'
 import { myList } from './mytodo_list.ts'
 
@@ -10,32 +10,32 @@ console.log('Hello from typescript')
 const todoInput = document.querySelector<HTMLInputElement>('#todo-input')
 const button = document.querySelector<HTMLButtonElement>('#add-todo-button')
 const outputList = document.querySelector<HTMLUListElement>('#todo-list')
-const delete_all = document.querySelector<HTMLButtonElement>('#delete-all')
-export const due_date = document.querySelector<HTMLInputElement>('#due-date')
-const error_message = document.querySelector<HTMLParagraphElement>(
+const deleteAll = document.querySelector<HTMLButtonElement>('#delete-all')
+ const dueDate = document.querySelector<HTMLInputElement>('#due-date')
+const errorMessage = document.querySelector<HTMLParagraphElement>(
   '#todo-creation-error',
 )
-const global_message =
+const globalMessage =
   document.querySelector<HTMLParagraphElement>('#global_message')
 
-if (outputList && delete_all && global_message && error_message && todoInput) {
-  deserialized(outputList, delete_all, global_message, error_message, todoInput)
+if (outputList && deleteAll && globalMessage && errorMessage && todoInput) {
+  deserialized(outputList, deleteAll, globalMessage, errorMessage, todoInput)
 }
-if (todos && outputList && todoInput && global_message) {
+if (todos && outputList && todoInput && globalMessage) {
   todos.forEach((_, index) => {
-    done_todo(index, outputList, todoInput, global_message)
+    doneTodo(index, outputList, todoInput, globalMessage)
   })
 }
 
-if (outputList && delete_all && global_message && error_message && todoInput) {
+if (outputList && deleteAll && globalMessage && errorMessage && todoInput) {
   todos.forEach((todo, index) => {
     myList(
       todo,
       index,
       outputList,
-      delete_all,
-      global_message,
-      error_message,
+      deleteAll,
+      globalMessage,
+      errorMessage,
       todoInput,
     )
   })
@@ -45,46 +45,46 @@ if (
   todoInput &&
   button &&
   outputList &&
-  global_message &&
+  globalMessage &&
   outputList &&
-  error_message &&
-  delete_all &&
-  due_date
+  errorMessage &&
+  deleteAll &&
+  dueDate
 ) {
   event(
     todoInput,
-    global_message,
-    error_message,
+    globalMessage,
+    errorMessage,
     outputList,
-    delete_all,
+    deleteAll,
     button,
-    due_date,
+    dueDate,
   )
 }
 
 if (
   todoInput &&
-  due_date &&
-  global_message &&
-  error_message &&
+  dueDate &&
+  globalMessage &&
+  errorMessage &&
   outputList &&
-  delete_all
+  deleteAll
 ) {
-  Storage(
+  storage(
     todoInput,
-    due_date,
-    global_message,
-    error_message,
+    dueDate,
+    globalMessage,
+    errorMessage,
     outputList,
-    delete_all,
+    deleteAll,
   )
 }
-if (global_message) {
-  overdueTodos(global_message)
+if (globalMessage) {
+  overdueTodos(globalMessage)
 }
 
-if (global_message) {
-  overdueTodos(global_message)
+if (globalMessage) {
+  overdueTodos(globalMessage)
 }
 
 // export {function }
