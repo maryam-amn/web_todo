@@ -126,6 +126,7 @@ button[id="button"] {
 button[id="delete-all"] {
   background-color: rgb(172, 180, 188);
   border-radius: 5px;
+  cursor: pointer;
 }
 input[type="date"] {
   background-color: rgb(172, 180, 188);
@@ -140,7 +141,9 @@ input[type="text"] {
   background-color: transparent;
   border-bottom: 2px solid grey;
 }
-
+button[type="disabled"] {
+  color: aliceblue;
+}
 ul {
   display: flex;
   align-items: center;
