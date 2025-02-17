@@ -72,7 +72,6 @@ export async function fetchDelete(identification: Todo) {
   )
 }
 
-
 export async function fetchPatch(
   identification: Todo,
   todos: Todo[],
