@@ -1,5 +1,4 @@
 import { type Todo, doneTodo, todos } from './Storage_todo.ts'
-import { overdueTodos } from './event.ts'
 
 export function myList(
   todo: Todo,
@@ -9,23 +8,23 @@ export function myList(
   globalMessage: HTMLParagraphElement,
   errorMessage: HTMLParagraphElement,
   todoInput: HTMLInputElement,
+  identification: Todo,
 ) {
   if (outputList) {
+    console.log('affichage : ', todo)
     const div = document.createElement('div')
     outputList.appendChild(div)
     div.classList.add('todo-div')
 
-    const addedTodoText = todo.text
+    const addedTodoText = todo.title
     const newList = document.createElement('li')
     newList.innerHTML = addedTodoText
+
     div.appendChild(newList)
     div.appendChild(newList)
-
-    newList.classList.add('list')
-
+    newList.id = 'li'
     if (deleteAll && globalMessage) {
       deleteAll.addEventListener('click', () => {
-        localStorage.removeItem('value')
         newList.remove()
         button.remove()
         checkbox.remove()
@@ -36,9 +35,9 @@ export function myList(
 
     const checkbox = document.createElement('input')
     checkbox.type = 'checkbox'
-    checkbox.checked = todo.status === 'done'
+    checkbox.checked = todo.done
     checkbox.addEventListener('change', () => {
-      doneTodo(index, outputList, todoInput, globalMessage)
+      doneTodo(index, outputList, todoInput, globalMessage, identification)
     })
 
     div.appendChild(checkbox)
@@ -50,23 +49,14 @@ export function myList(
 
     div.appendChild(button)
 
-    button.addEventListener('click', () => {
+    button.addEventListener('click', async () => {
       if (newList) newList.remove()
       if (Buttons) Buttons.remove()
       if (checkbox) checkbox.remove()
-
-      const index = todos.findIndex((t) => t.text === todo.text)
-      if (index !== -1) {
-        todos.splice(index, 1)
-        localStorage.setItem('value', JSON.stringify(todos))
-        if (globalMessage) {
-          overdueTodos(globalMessage)
-        }
-      }
     })
 
     if (errorMessage) {
-      if (Number.isNaN(new Date(todo.date).getTime())) {
+      if (Number.isNaN(new Date(todo.due_date).getTime())) {
         errorMessage.innerHTML =
           "<p style='color: red;'>" + 'Please enter a valid date</p>'
         newList.remove()
@@ -81,18 +71,18 @@ export function myList(
         errorMessage.innerHTML = ''
         const dates = document.createElement('p')
         const time = document.createElement('time')
-        time.textContent = `\xa0${todo.date}`
+        time.textContent = `\xa0${todo.due_date}`
 
         const today = new Date()
         if (
-          new Date(todo.date).setHours(0, 0, 0, 0) ===
+          new Date(todo.due_date).setHours(0, 0, 0, 0) ===
           new Date().setHours(0, 0, 0, 0)
         ) {
           newList.style.color = 'orange'
-        } else if (new Date(todo.date) < new Date()) {
+        } else if (new Date(todo.due_date) < new Date()) {
           newList.style.color = 'red'
         } else if (
-          new Date(todo.date) < new Date(today.setDate(today.getDate() + 4))
+          new Date(todo.due_date) < new Date(today.setDate(today.getDate() + 4))
         ) {
           newList.style.color = 'yellow'
         } else {

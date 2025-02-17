@@ -56,7 +56,7 @@ export function event(
 
 export function overdueTodos(globalMessage: HTMLParagraphElement) {
   const today = new Date()
-  const overdueTodos = todos.filter((todo) => new Date(todo.date) < today)
+  const overdueTodos = todos.filter((todo) => new Date(todo.due_date) < today)
 
   if (overdueTodos.length > 0 && globalMessage) {
     globalMessage.innerHTML =

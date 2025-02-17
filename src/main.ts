@@ -3,6 +3,7 @@ export { myList }
 console.log('Hello from typescript')
 import { deserialized, doneTodo, storage, todos } from './Storage_todo.ts'
 import { event, overdueTodos } from './event.ts'
+import { get } from './fetch.ts'
 import { myList } from './mytodo_list.ts'
 
 console.log('Hello from typescript')
@@ -23,9 +24,10 @@ if (outputList && deleteAll && globalMessage && errorMessage && todoInput) {
 }
 if (todos && outputList && todoInput && globalMessage) {
   todos.forEach((_, index) => {
-    doneTodo(index, outputList, todoInput, globalMessage)
+    doneTodo(index, outputList, todoInput, globalMessage, _)
   })
 }
+if (outputList) get(outputList)
 
 if (outputList && deleteAll && globalMessage && errorMessage && todoInput) {
   todos.forEach((todo, index) => {
@@ -37,10 +39,10 @@ if (outputList && deleteAll && globalMessage && errorMessage && todoInput) {
       globalMessage,
       errorMessage,
       todoInput,
+      todo,
     )
   })
 }
-
 if (
   todoInput &&
   button &&
