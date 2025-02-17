@@ -1,10 +1,13 @@
 import { overdueTodos } from './event.ts'
+import { fetchPatch, fetchPost } from './fetch.ts'
 import { myList } from './mytodo_list.ts'
 
 export interface Todo {
-  text: string
-  status: string
-  date: string
+  id: string
+  title: string
+  content: string
+  due_date: string
+  done: boolean
 }
 
 export const todos: Todo[] = []
@@ -30,6 +33,7 @@ export function deserialized(
           globalMessage,
           errorMessage,
           todoInput,
+          todo,
         )
       })
     }
@@ -40,52 +44,55 @@ export function doneTodo(
   outputList: HTMLUListElement,
   todoInput: HTMLInputElement,
   global_message: HTMLParagraphElement,
+  identification: Todo,
 ) {
   if (outputList && todoInput) {
-    if (todos[index].status === 'done') {
-      todos[index].status = 'undone'
+    if (todos[index].done === true) {
+      todos[index].done = false
     } else {
-      todos[index].status = 'done'
+      todos[index].done = true
     }
   }
+
+  fetchPatch(identification, todos, index)
   localStorage.setItem('value', JSON.stringify(todos))
   if (global_message) {
     overdueTodos(global_message)
   }
 }
 
-export function storage(
+export async function storage(
   todoInput: HTMLInputElement,
   dueDate: HTMLInputElement,
   globalMessage: HTMLParagraphElement,
   errorMessage: HTMLParagraphElement,
   outputList: HTMLUListElement,
   deleteAll: HTMLButtonElement,
-): void {
-  if (todoInput && dueDate) {
-    const text: string = todoInput.value.trim()
-    const date: string = dueDate.value.trim()
-    if (text) {
-      const newTodo: Todo = { text, status: 'undone', date }
-      todos.push(newTodo)
-      const serialized = JSON.stringify(todos)
-      localStorage.setItem('value', serialized)
-
-      myList(
-        newTodo,
-        todos.length - 1,
-        outputList,
-        deleteAll,
-        globalMessage,
-        errorMessage,
-        todoInput,
-      )
-
-      todoInput.value = ' '
+) {
+  const text: string = todoInput.value.trim()
+  const date: string = dueDate.value.trim()
+  if (text) {
+    const newTodo: Todo = {
+      title: text,
+      done: false,
+      due_date: date,
+      id: text,
+      content: text,
     }
-  }
+    todos.push(newTodo)
+    await fetchPost(newTodo.title, newTodo.due_date, newTodo.done)
+    myList(
+      newTodo,
+      todos.length - 1,
+      outputList,
+      deleteAll,
+      globalMessage,
+      errorMessage,
+      todoInput,
+      newTodo,
+    )
+    todoInput.value = ' '
 
-  if (globalMessage) {
-    overdueTodos(globalMessage)
+    console.log('hi')
   }
 }
