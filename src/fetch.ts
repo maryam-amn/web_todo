@@ -1,7 +1,11 @@
 //import {type Todo} from "./Storage_todo.ts";
 import type { Todo } from './Storage_todo.ts'
 
-export function get(outputList: HTMLUListElement) {
+export function get(
+  outputList: HTMLUListElement,
+  select: HTMLSelectElement,
+  errorMessage: HTMLElement,
+) {
   fetch('https://api.todos.in.jt-lab.ch/todos')
     .then((get) => get.json())
     .then((data) => {
@@ -11,11 +15,26 @@ export function get(outputList: HTMLUListElement) {
         div.classList.add('todo-div')
 
         const newList = document.createElement('li')
-        newList.innerHTML = JSON.stringify(`${item.title} ${item.due_date}`)
+
+        if (newList) {
+          if (Number.isNaN(new Date(item.due_date).getTime())) {
+            newList.innerHTML = `${item.title} nul `
+            newList.style.color = 'white'
+          } else {
+            newList.innerHTML = `${item.title} ${item.due_date} `
+          }
+        }
+
         newList.id = 'li'
 
         div.appendChild(newList)
-        div.appendChild(newList)
+
+        const newSelect = document.createElement('select')
+        newSelect.innerHTML = select.innerHTML
+        newSelect.style.color = item.color
+
+        newList.appendChild(newSelect)
+
         const checkbox = document.createElement('input')
         checkbox.type = 'checkbox'
 
@@ -31,8 +50,26 @@ export function get(outputList: HTMLUListElement) {
           if (newList) newList.remove()
           if (Buttons) Buttons.remove()
           if (checkbox) checkbox.remove()
+          if (select) newSelect.remove()
           await fetchDelete(item)
         })
+        const today = new Date()
+
+        if (
+          new Date(item.due_date).setHours(0, 0, 0, 0) ===
+          new Date().setHours(0, 0, 0, 0)
+        ) {
+          newList.style.color = 'orange'
+        } else if (new Date(item.due_date) < new Date()) {
+          newList.style.color = 'red'
+          errorMessage.innerHTML = 'You have overdue todos'
+        } else if (
+          new Date(item.due_date) < new Date(today.setDate(today.getDate() + 4))
+        ) {
+          newList.style.color = 'yellow'
+        } else {
+          newList.style.color = 'green'
+        }
       }
     })
 }
@@ -50,7 +87,6 @@ export async function fetchPost(
     method: 'POST',
     body: JSON.stringify({
       title: title,
-      due_date: due_date,
       done: done,
     }),
     headers: myHeaders,

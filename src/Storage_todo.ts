@@ -1,3 +1,5 @@
+import { type Categories, cat } from './Category_files/create_categories.ts'
+import { PatchCategory } from './Category_files/patch-category.ts'
 import { overdueTodos } from './event.ts'
 import { fetchPatch, fetchPost } from './fetch.ts'
 import { myList } from './mytodo_list.ts'
@@ -18,6 +20,7 @@ export function deserialized(
   globalMessage: HTMLParagraphElement,
   errorMessage: HTMLParagraphElement,
   todoInput: HTMLInputElement,
+  select: HTMLSelectElement,
 ) {
   const deserialized = localStorage.getItem('value')
   let todos: Todo[] = []
@@ -34,6 +37,7 @@ export function deserialized(
           errorMessage,
           todoInput,
           todo,
+          select,
         )
       })
     }
@@ -61,6 +65,10 @@ export function doneTodo(
   }
 }
 
+export function ColorCategory(identification: Categories, index: number) {
+  PatchCategory(identification, cat, index)
+}
+
 export async function storage(
   todoInput: HTMLInputElement,
   dueDate: HTMLInputElement,
@@ -68,6 +76,7 @@ export async function storage(
   errorMessage: HTMLParagraphElement,
   outputList: HTMLUListElement,
   deleteAll: HTMLButtonElement,
+  select: HTMLSelectElement,
 ) {
   const text: string = todoInput.value.trim()
   const date: string = dueDate.value.trim()
@@ -90,6 +99,7 @@ export async function storage(
       errorMessage,
       todoInput,
       newTodo,
+      select,
     )
     todoInput.value = ' '
 

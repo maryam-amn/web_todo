@@ -1,7 +1,18 @@
 import './style.css'
 export { myList }
 console.log('Hello from typescript')
-import { deserialized, doneTodo, storage, todos } from './Storage_todo.ts'
+import {
+  addNewCategory,
+  cat,
+  getCategories,
+} from './Category_files/create_categories.ts'
+import {
+  ColorCategory,
+  deserialized,
+  doneTodo,
+  storage,
+  todos,
+} from './Storage_todo.ts'
 import { event, overdueTodos } from './event.ts'
 import { get } from './fetch.ts'
 import { myList } from './mytodo_list.ts'
@@ -18,18 +29,49 @@ const errorMessage = document.querySelector<HTMLParagraphElement>(
 )
 const globalMessage =
   document.querySelector<HTMLParagraphElement>('#global_message')
+const addCategoriesButton =
+  document.querySelector<HTMLButtonElement>('#button-categories')
+const categoryTextInput =
+  document.querySelector<HTMLInputElement>('#text-catergories')
+const categoryColorInput =
+  document.querySelector<HTMLInputElement>('#color-picker')
 
-if (outputList && deleteAll && globalMessage && errorMessage && todoInput) {
-  deserialized(outputList, deleteAll, globalMessage, errorMessage, todoInput)
+const CategoryParagraph = document.querySelector<HTMLParagraphElement>('#text')
+
+const select = document.querySelector<HTMLSelectElement>('#category-select')
+if (
+  outputList &&
+  deleteAll &&
+  globalMessage &&
+  errorMessage &&
+  todoInput &&
+  select
+) {
+  deserialized(
+    outputList,
+    deleteAll,
+    globalMessage,
+    errorMessage,
+    todoInput,
+    select,
+  )
 }
 if (todos && outputList && todoInput && globalMessage) {
   todos.forEach((_, index) => {
     doneTodo(index, outputList, todoInput, globalMessage, _)
   })
 }
-if (outputList) get(outputList)
+if (outputList && select && errorMessage) get(outputList, select, errorMessage)
+if (CategoryParagraph && select) getCategories(CategoryParagraph, select)
 
-if (outputList && deleteAll && globalMessage && errorMessage && todoInput) {
+if (
+  outputList &&
+  deleteAll &&
+  globalMessage &&
+  errorMessage &&
+  todoInput &&
+  select
+) {
   todos.forEach((todo, index) => {
     myList(
       todo,
@@ -40,6 +82,30 @@ if (outputList && deleteAll && globalMessage && errorMessage && todoInput) {
       errorMessage,
       todoInput,
       todo,
+      select,
+    )
+  })
+}
+
+if (
+  outputList &&
+  deleteAll &&
+  globalMessage &&
+  errorMessage &&
+  todoInput &&
+  select
+) {
+  todos.forEach((todo, index) => {
+    myList(
+      todo,
+      index,
+      outputList,
+      deleteAll,
+      globalMessage,
+      errorMessage,
+      todoInput,
+      todo,
+      select,
     )
   })
 }
@@ -51,7 +117,8 @@ if (
   outputList &&
   errorMessage &&
   deleteAll &&
-  dueDate
+  dueDate &&
+  select
 ) {
   event(
     todoInput,
@@ -61,6 +128,7 @@ if (
     deleteAll,
     button,
     dueDate,
+    select,
   )
 }
 
@@ -70,7 +138,8 @@ if (
   globalMessage &&
   errorMessage &&
   outputList &&
-  deleteAll
+  deleteAll &&
+  select
 ) {
   storage(
     todoInput,
@@ -79,6 +148,7 @@ if (
     errorMessage,
     outputList,
     deleteAll,
+    select,
   )
 }
 if (globalMessage) {
@@ -89,4 +159,24 @@ if (globalMessage) {
   overdueTodos(globalMessage)
 }
 
+if (addCategoriesButton && categoryTextInput && categoryColorInput) {
+  addCategoriesButton.addEventListener('click', () => {
+    addNewCategory(categoryTextInput, categoryColorInput)
+    location.reload()
+  })
+}
+
+if (addCategoriesButton && categoryTextInput && categoryColorInput) {
+  categoryTextInput.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      addNewCategory(categoryTextInput, categoryColorInput)
+      location.reload()
+    }
+  })
+}
+
+cat.forEach((_, index) => {
+  ColorCategory(_, index)
+})
+// export {function }
 // export {function }

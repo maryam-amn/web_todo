@@ -20,6 +20,7 @@ export function event(
   deleteAll: HTMLButtonElement,
   button: HTMLButtonElement,
   dueDate: HTMLInputElement,
+  select: HTMLSelectElement,
 ): void {
   if (todoInput) {
     todoInput.addEventListener('input', () => {
@@ -36,6 +37,7 @@ export function event(
         errorMessage,
         outputList,
         deleteAll,
+        select,
       )
     })
 
@@ -48,6 +50,7 @@ export function event(
           errorMessage,
           outputList,
           deleteAll,
+          select,
         )
       }
     })

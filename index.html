@@ -13,7 +13,7 @@
 </head>
 
 <body  >
-  <h1 id="title-todo">Web todolist app</h1>
+  <h1 class="title-todo">Web todolist app</h1>
   <div id="app">
 
     <div id="todo-space-button">
@@ -30,6 +30,13 @@
 
   </div>
 
+
+
+  <select name="category" id="category-select">
+    <option value="">-- Choose a Category--</option>
+  </select>
+
+
   </div>
 
   <div id="todo-title-list">
@@ -38,11 +45,30 @@
   </div><p id="global_message"></p>
   <div class="list-style">
 
+
   <ul id="todo-list"></ul>
-<p id="todo-test"></p>
-<p id=" text"></p>
+    <h1 class="title-todo" >Catégories :</h1>
+
+    <div class="Category_space">
+      <div id = "backgroud-button-category">
+      <input id="color-picker" type="color" >
+      <input id="text-catergories" type="text" >
+        <button id="button-categories"> Add a catergories</button>
+
+      <div class="text-input-categories"></div>
+        </div>
+    </div>
+
+    <p id="todo-test"></p>
+
+    <ul id ="category-list">
+
+      <p id="text"></p>
+
+    </ul>
+
   </div>
-  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/main.ts" ></script>
 </body>
 
 </html>
