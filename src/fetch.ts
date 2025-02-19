@@ -80,7 +80,6 @@ myHeaders.append('Prefer', 'return=representation')
 
 export async function fetchPost(
   title: string,
-  due_date: string,
   done: boolean,
 ) {
   const myRequest = new Request('https://api.todos.in.jt-lab.ch/todos', {
