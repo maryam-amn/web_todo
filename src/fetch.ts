@@ -78,10 +78,7 @@ const myHeaders = new Headers()
 myHeaders.append('Content-Type', 'application/json')
 myHeaders.append('Prefer', 'return=representation')
 
-export async function fetchPost(
-  title: string,
-  done: boolean,
-) {
+export async function fetchPost(title: string, done: boolean) {
   const myRequest = new Request('https://api.todos.in.jt-lab.ch/todos', {
     method: 'POST',
     body: JSON.stringify({

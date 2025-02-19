@@ -89,7 +89,7 @@ export async function storage(
       content: text,
     }
     todos.push(newTodo)
-    await fetchPost(newTodo.title, newTodo.due_date, newTodo.done)
+    await fetchPost(newTodo.title, newTodo.done)
     myList(
       newTodo,
       todos.length - 1,
