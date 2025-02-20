@@ -1,3 +1,5 @@
+import { type Categories, cat } from './Category_files/create_categories.ts'
+import { PatchCategory } from './Category_files/patch-category.ts'
 import { overdueTodos } from './event.ts'
 import { fetchPatch, fetchPost } from './fetch.ts'
 import { myList } from './mytodo_list.ts'
@@ -8,6 +10,7 @@ export interface Todo {
   content: string
   due_date: string
   done: boolean
+  select: string
 }
 
 export const todos: Todo[] = []
@@ -18,6 +21,7 @@ export function deserialized(
   globalMessage: HTMLParagraphElement,
   errorMessage: HTMLParagraphElement,
   todoInput: HTMLInputElement,
+  select: HTMLSelectElement,
 ) {
   const deserialized = localStorage.getItem('value')
   let todos: Todo[] = []
@@ -34,6 +38,7 @@ export function deserialized(
           errorMessage,
           todoInput,
           todo,
+          select,
         )
       })
     }
@@ -61,6 +66,10 @@ export function doneTodo(
   }
 }
 
+export function ColorCategory(identification: Categories, index: number) {
+  PatchCategory(identification, cat, index)
+}
+
 export async function storage(
   todoInput: HTMLInputElement,
   dueDate: HTMLInputElement,
@@ -68,9 +77,11 @@ export async function storage(
   errorMessage: HTMLParagraphElement,
   outputList: HTMLUListElement,
   deleteAll: HTMLButtonElement,
+  select: HTMLSelectElement,
 ) {
   const text: string = todoInput.value.trim()
   const date: string = dueDate.value.trim()
+  const selection = select.value.trim()
   if (text) {
     const newTodo: Todo = {
       title: text,
@@ -78,9 +89,15 @@ export async function storage(
       due_date: date,
       id: text,
       content: text,
+      select: selection,
     }
+    await fetchPost(
+      newTodo.title,
+      newTodo.done,
+      newTodo.due_date,
+      newTodo.select,
+    ) // de transférer l'id de la categorie
     todos.push(newTodo)
-    await fetchPost(newTodo.title, newTodo.due_date, newTodo.done)
     myList(
       newTodo,
       todos.length - 1,
@@ -90,6 +107,7 @@ export async function storage(
       errorMessage,
       todoInput,
       newTodo,
+      select,
     )
     todoInput.value = ' '
 

@@ -11,7 +11,7 @@ body {
   border: none;
 }
 
-#title-todo {
+.title-todo {
   display: flex;
   justify-content: center;
   color: aliceblue;
@@ -23,7 +23,6 @@ body {
   height: 50px;
   width: 450px;
   border-radius: 10px;
-  background-color: transparent;
   align-items: center;
   justify-content: center;
   background-color: rgb(69, 81, 140);
@@ -94,7 +93,15 @@ li {
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 70%;
+  width: 50%;
+}
+
+#li-myList-function {
+  list-style: square;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 25%;
 }
 
 time {
@@ -148,4 +155,67 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#color-picker {
+  background: black;
+  height: 20px;
+  justify-content: center;
+}
+.Category_space {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+#button-categories {
+  background-color: rgb(172, 180, 188);
+  border-radius: 5px;
+  cursor: pointer;
+}
+#category-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  gap: 10px;
+  padding-left: 800px;
+}
+
+#text {
+  width: 100px;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  display: grid;
+}
+.CategoryDiv {
+  background-color: rgba(40, 39, 76, 0.51);
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-color: rgba(20, 16, 166, 0.51);
+  border-radius: 15px;
+  gap: 50px;
+  text-align: center;
+}
+select {
+  background-color: rgb(69, 81, 140);
+  color: white;
+  border-radius: 10px;
+}
+option {
+  color: aliceblue;
+  text-align: center;
+}
+#backgroud-button-category {
+  display: flex;
+  height: 50px;
+  width: 400px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(69, 81, 140);
+  gap: 10px;
 }

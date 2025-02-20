@@ -9,9 +9,11 @@ export function myList(
   errorMessage: HTMLParagraphElement,
   todoInput: HTMLInputElement,
   identification: Todo,
+  select: HTMLSelectElement,
 ) {
   if (outputList) {
     console.log('affichage : ', todo)
+
     const div = document.createElement('div')
     outputList.appendChild(div)
     div.classList.add('todo-div')
@@ -22,7 +24,8 @@ export function myList(
 
     div.appendChild(newList)
     div.appendChild(newList)
-    newList.id = 'li'
+    newList.id = 'li-myList-function'
+
     if (deleteAll && globalMessage) {
       deleteAll.addEventListener('click', () => {
         newList.remove()
@@ -33,6 +36,12 @@ export function myList(
     }
     //const TextRemove = "Remove"
 
+    const newSelect = document.createElement('select')
+    newSelect.innerHTML = select.innerHTML
+    div.appendChild(newSelect)
+
+    newList.style.color = newSelect.style.color
+
     const checkbox = document.createElement('input')
     checkbox.type = 'checkbox'
     checkbox.checked = todo.done
@@ -41,6 +50,7 @@ export function myList(
     })
 
     div.appendChild(checkbox)
+
     const Buttons = document.createElement('button')
     Buttons.innerHTML =
       '<img width="30" height="30" src="https://img.icons8.com/carbon-copy/100/filled-trash.png" alt="filled-trash"/>'
@@ -56,43 +66,36 @@ export function myList(
     })
 
     if (errorMessage) {
-      if (Number.isNaN(new Date(todo.due_date).getTime())) {
-        errorMessage.innerHTML =
-          "<p style='color: red;'>" + 'Please enter a valid date</p>'
-        newList.remove()
-        Buttons.remove()
-        checkbox.remove()
+      errorMessage.innerHTML = ''
+      const dates = document.createElement('p')
+      const time = document.createElement('time')
+      time.textContent = `\xa0${todo.due_date}`
 
+      const today = new Date()
+      if (Number.isNaN(new Date(todo.due_date).getTime())) {
+        time.textContent = 'null'
         if (index !== -1) {
           todos.splice(index, 1)
           localStorage.setItem('value', JSON.stringify(todos))
         }
-      } else {
-        errorMessage.innerHTML = ''
-        const dates = document.createElement('p')
-        const time = document.createElement('time')
-        time.textContent = `\xa0${todo.due_date}`
-
-        const today = new Date()
-        if (
-          new Date(todo.due_date).setHours(0, 0, 0, 0) ===
-          new Date().setHours(0, 0, 0, 0)
-        ) {
-          newList.style.color = 'orange'
-        } else if (new Date(todo.due_date) < new Date()) {
-          newList.style.color = 'red'
-        } else if (
-          new Date(todo.due_date) < new Date(today.setDate(today.getDate() + 4))
-        ) {
-          newList.style.color = 'yellow'
-        } else {
-          newList.style.color = 'green'
-        }
-
-        dates.appendChild(time)
-        newList.appendChild(dates)
-        time.className = 'time'
       }
+      if (
+        new Date(todo.due_date).setHours(0, 0, 0, 0) ===
+        new Date().setHours(0, 0, 0, 0)
+      ) {
+        newList.style.color = 'orange'
+      } else if (new Date(todo.due_date) < new Date()) {
+        newList.style.color = 'red'
+      } else if (
+        new Date(todo.due_date) < new Date(today.setDate(today.getDate() + 4))
+      ) {
+        newList.style.color = 'yellow'
+      } else {
+        newList.style.color = 'green'
+      }
+      dates.appendChild(time)
+      newList.appendChild(dates)
+      time.className = 'time'
     }
   } else {
     alert('Please enter a todo ')
