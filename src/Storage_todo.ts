@@ -10,6 +10,7 @@ export interface Todo {
   content: string
   due_date: string
   done: boolean
+  select: string
 }
 
 export const todos: Todo[] = []
@@ -80,6 +81,7 @@ export async function storage(
 ) {
   const text: string = todoInput.value.trim()
   const date: string = dueDate.value.trim()
+  const selection = select.value.trim()
   if (text) {
     const newTodo: Todo = {
       title: text,
@@ -87,9 +89,15 @@ export async function storage(
       due_date: date,
       id: text,
       content: text,
+      select: selection,
     }
+    await fetchPost(
+      newTodo.title,
+      newTodo.done,
+      newTodo.due_date,
+      newTodo.select,
+    ) // de transférer l'id de la categorie
     todos.push(newTodo)
-    await fetchPost(newTodo.title, newTodo.done)
     myList(
       newTodo,
       todos.length - 1,

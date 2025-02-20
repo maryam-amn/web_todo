@@ -4,7 +4,8 @@ console.log('Hello from typescript')
 import {
   addNewCategory,
   cat,
-  getCategories,
+  loadCategoriesFromApi,
+  renderCategories,
 } from './Category_files/create_categories.ts'
 import {
   ColorCategory,
@@ -61,8 +62,12 @@ if (todos && outputList && todoInput && globalMessage) {
     doneTodo(index, outputList, todoInput, globalMessage, _)
   })
 }
-if (outputList && select && errorMessage) get(outputList, select, errorMessage)
-if (CategoryParagraph && select) getCategories(CategoryParagraph, select)
+
+const categories = await loadCategoriesFromApi()
+if (outputList && select && errorMessage)
+  get(outputList, select, errorMessage, categories)
+if (CategoryParagraph && select)
+  renderCategories(CategoryParagraph, select, categories)
 
 if (
   outputList &&

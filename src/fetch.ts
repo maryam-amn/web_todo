@@ -1,3 +1,7 @@
+import {
+  type Categories,
+  renderSelectElement,
+} from './Category_files/create_categories.ts'
 //import {type Todo} from "./Storage_todo.ts";
 import type { Todo } from './Storage_todo.ts'
 
@@ -5,8 +9,9 @@ export function get(
   outputList: HTMLUListElement,
   select: HTMLSelectElement,
   errorMessage: HTMLElement,
+  categories: Categories[],
 ) {
-  fetch('https://api.todos.in.jt-lab.ch/todos')
+  fetch('https://api.todos.in.jt-lab.ch/todos?select=*,categories(*)')
     .then((get) => get.json())
     .then((data) => {
       for (const item of data) {
@@ -25,14 +30,15 @@ export function get(
           }
         }
 
-        newList.id = 'li'
-
+        //newList.id = 'li'
         div.appendChild(newList)
 
         const newSelect = document.createElement('select')
-        newSelect.innerHTML = select.innerHTML
-        newSelect.style.color = item.color
-
+        if (item.categories.length > 0) {
+          renderSelectElement(categories, newSelect, item.categories[0].id)
+        } else {
+          renderSelectElement(categories, newSelect, '0')
+        }
         newList.appendChild(newSelect)
 
         const checkbox = document.createElement('input')
@@ -78,12 +84,18 @@ const myHeaders = new Headers()
 myHeaders.append('Content-Type', 'application/json')
 myHeaders.append('Prefer', 'return=representation')
 
-export async function fetchPost(title: string, done: boolean) {
+export async function fetchPost(
+  title: string,
+  done: boolean,
+  due_date: string,
+  category_id: string,
+) {
   const myRequest = new Request('https://api.todos.in.jt-lab.ch/todos', {
     method: 'POST',
     body: JSON.stringify({
       title: title,
       done: done,
+      due_date: due_date,
     }),
     headers: myHeaders,
   })
@@ -91,7 +103,31 @@ export async function fetchPost(title: string, done: boolean) {
   const response = await fetch(myRequest)
   if (response.ok) {
     console.log('There is no error')
+
+    const data = await response.json()
+    console.log(data[0].id)
+
+    // faire un second POST a /categories_todos
+    const post_categories_todos = new Request(
+      'https://api.todos.in.jt-lab.ch:443/categories_todos',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          category_id: category_id,
+          todo_id: data[0].id,
+        }),
+        headers: myHeaders,
+      },
+    )
+
+    const test = await fetch(post_categories_todos)
+    if (test.ok) {
+      console.log('There is no error')
+      console.log(category_id, data[0].id)
+    }
   }
+
+  // Associer la todo nouvellement créee a la categorie sélectionnée
 }
 
 export async function fetchDelete(identification: Todo) {

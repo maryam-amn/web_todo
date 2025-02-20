@@ -41,6 +41,7 @@ export function myList(
     div.appendChild(newSelect)
 
     newList.style.color = newSelect.style.color
+
     const checkbox = document.createElement('input')
     checkbox.type = 'checkbox'
     checkbox.checked = todo.done

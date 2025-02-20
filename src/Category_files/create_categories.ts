@@ -9,59 +9,80 @@ export const cat: Categories[] = []
 
 const arr: Categories[] = []
 
+export function renderSelectElement(
+  categories: Categories[],
+  selectElement: HTMLSelectElement,
+  selectedCategorieId: string,
+) {
+  const option = document.createElement('option')
+  option.innerText = 'Pas de categorie'
+  selectElement.appendChild(option)
+
+  for (const category of categories) {
+    const option = document.createElement('option')
+    option.innerHTML = category.title
+    option.style.color = category.color
+
+    option.value = category.id
+
+    if (category.id === selectedCategorieId) {
+      option.selected = true
+    }
+    selectElement.append(option)
+  }
+}
+
+export async function loadCategoriesFromApi() {
+  const response = await fetch('https://api.todos.in.jt-lab.ch/categories')
+  if (response.ok) {
+    const data = (await response.json()) as Categories[]
+    return data
+  }
+  console.error('Cannot get categories')
+  return []
+}
+
 // Récupère les catégories actuellement sur le serveur, avec GET
-export function getCategories(
+export function renderCategories(
   CategoryParagraph: HTMLParagraphElement,
   select: HTMLSelectElement,
+  data: Categories[],
 ) {
-  fetch('https://api.todos.in.jt-lab.ch/categories')
-    .then((get) => get.json())
-    .then((data) => {
-      for (const category of data) {
-        console.log(category)
-        const div = document.createElement('div')
-        CategoryParagraph.appendChild(div)
-        div.classList.add('CategoryDiv')
+  for (const category of data) {
+    console.log(category)
+    const div = document.createElement('div')
+    CategoryParagraph.appendChild(div)
+    div.classList.add('CategoryDiv')
 
-        const paragraphElement = document.createElement('a')
-        div.appendChild(paragraphElement)
+    const paragraphElement = document.createElement('a')
+    div.appendChild(paragraphElement)
 
-        const addedTodoText = category.title
-        const newList = document.createElement('a')
-        newList.innerHTML = addedTodoText
+    const addedTodoText = category.title
+    const newList = document.createElement('a')
+    newList.innerHTML = addedTodoText
 
-        newList.style.color = category.color
+    newList.style.color = category.color
 
-        paragraphElement.appendChild(newList)
-        newList.classList.add('CategoriesList')
+    paragraphElement.appendChild(newList)
+    newList.classList.add('CategoriesList')
 
-        const option = document.createElement('option')
-        option.innerHTML = category.title
-        option.style.color = category.color
-        select.append(option)
+    // il faudrai faire un if qui regarde si le champ et selection si selection prend
+    // comme valeur de defaut ce qu'on a choist sinon creée un nouveau
 
-        option.addEventListener('click', () => {
-          option.style.color = 'red'
-          option.classList.add('selected')
-        })
-
-        const Buttons = document.createElement('button')
-        Buttons.innerHTML =
-          '<img width="30" height="30" src="https://img.icons8.com/carbon-copy/100/filled-trash.png" alt="filled-trash"/>'
-        const button = CategoryParagraph.appendChild(Buttons)
-        button.id = 'button'
-        div.appendChild(button)
-        button.addEventListener('click', async () => {
-          if (newList) newList.remove()
-          if (Buttons) Buttons.remove()
-          await deleteCategory(category)
-          location.reload()
-        })
-      }
+    const Buttons = document.createElement('button')
+    Buttons.innerHTML =
+      '<img width="30" height="30" src="https://img.icons8.com/carbon-copy/100/filled-trash.png" alt="filled-trash"/>'
+    const button = CategoryParagraph.appendChild(Buttons)
+    button.id = 'button'
+    div.appendChild(button)
+    button.addEventListener('click', async () => {
+      if (newList) newList.remove()
+      if (Buttons) Buttons.remove()
+      await deleteCategory(category)
+      location.reload()
     })
-    .catch((error) => {
-      console.log(error, 'There is a error')
-    })
+  }
+  renderSelectElement(data, select, '0')
 }
 
 export const addNewCategory = (
